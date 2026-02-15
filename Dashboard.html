@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>IPTV-com Dashboard</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; background: #121212; color: white; padding-top: 50px; }
+        .card { background: #1e1e1e; padding: 40px; border-radius: 15px; display: inline-block; border: 1px solid #333; }
+        .number { font-size: 80px; font-weight: bold; color: #00ff88; }
+        .label { font-size: 20px; color: #888; }
+    </style>
+</head>
+<body>
+    <h1>Monitoramento IPTV-com</h1>
+    <div class="card">
+        <div id="count" class="number">...</div>
+        <div class="label">Canais Brasileiros Online</div>
+    </div>
+
+    <script>
+        // O link para a sua lista M3U (Raw)
+        const url = 'https://raw.githubusercontent.com/iptv-com/iptv/main/lists/brazil.m3u';
+
+        async function updateCount() {
+            try {
+                const response = await fetch(url);
+                const text = await response.text();
+                // Conta quantas vezes aparece "#EXTINF" na lista
+                const count = (text.match(/#EXTINF/g) || []).length;
+                document.getElementById('count').innerText = count;
+            } catch (error) {
+                document.getElementById('count').innerText = "Erro";
+            }
+        }
+        updateCount();
+    </script>
+</body>
+</html>
